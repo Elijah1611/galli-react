@@ -14,7 +14,7 @@ const Home = () => {
                 <h2 className="font-inter font-thin text-2xl">View. Life. Gallery</h2>
             </div>
 
-            <div className="flex justify-around items-center mt-16">
+            <div className="flex justify-around items-center mt-16 px-5">
                 <Button text="Log In" />
                 <Button text="Register" />
             </div>
