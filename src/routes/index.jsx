@@ -6,6 +6,7 @@ import Profile from '../pages/Profile'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Discover from '../pages/Discover'
+import Favorites from '../pages/Favorites'
 
 const GalliRouter = () => {
     return (
@@ -13,6 +14,9 @@ const GalliRouter = () => {
             <Switch>
                 <Route exact path="/discover">
                     <Discover />
+                </Route>
+                <Route exact path="/favorites/:user_id">
+                    <Favorites />
                 </Route>
                 <Route exact path="/profile/:user_id">
                     <Profile />

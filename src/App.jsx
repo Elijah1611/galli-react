@@ -1,5 +1,6 @@
 import GalliRouter from "./routes";
 import Navbar from "./components/Navbar";
+import './styles/output.css'
 
 const App = () => {
 
