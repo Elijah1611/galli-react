@@ -5,6 +5,12 @@ module.exports = {
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    extend: {
+      fontFamily: {
+        'inria': ['"Inria Serif"', 'serif'],
+        'inter': ['Inter', 'sans-serif'],
+      },
+    },
     screens: {
       sm: '640px',
       md: '768px',
@@ -253,7 +259,7 @@ module.exports = {
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
+        '"Noto Color Emoji"'
       ],
       serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       mono: [

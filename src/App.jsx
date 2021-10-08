@@ -1,9 +1,12 @@
-
+import GalliRouter from "./routes";
+import Navbar from "./components/Navbar";
 
 const App = () => {
+
   return (
     <div className="App">
-      <h1 className="text-9xl text-blue-500">Hello World</h1>
+      <Navbar />
+      <GalliRouter />
     </div>
   );
 }
