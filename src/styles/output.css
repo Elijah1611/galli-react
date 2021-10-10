@@ -694,6 +694,10 @@ video {
 	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
 }
+.mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
 .mt-16 {
 	margin-top: 4rem;
 }
@@ -1102,6 +1106,9 @@ video {
 }
 .font-light {
 	font-weight: 300;
+}
+.uppercase {
+	text-transform: uppercase;
 }
 .text-red-500 {
 	--tw-text-opacity: 1;
