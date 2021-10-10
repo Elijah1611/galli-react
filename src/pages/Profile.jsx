@@ -26,7 +26,7 @@ const Profile = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 px-5">
+            <div className="grid grid-cols-1 gap-4 px-5 pb-10">
                 <ProfilePost
                     image="https://images.unsplash.com/photo-1633511090164-910b108d3442?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2370&q=80"
                     numOfLikes="2k"

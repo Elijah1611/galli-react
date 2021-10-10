@@ -6,6 +6,7 @@ import ProfileNavbar from "../components/ProfileNavbar";
 
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
+import EditProfile from '../pages/EditProfile';
 import RemoveProfile from '../pages/RemoveProfile';
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -35,6 +36,9 @@ const GalliRouter = () => {
                 </Route>
                 <Route exact path="/profile/:user_id">
                     <Profile />
+                </Route>
+                <Route exact path="/profile/:user_id/edit">
+                    <EditProfile />
                 </Route>
                 <Route exact path="/profile/:user_id/remove">
                     <RemoveProfile />
