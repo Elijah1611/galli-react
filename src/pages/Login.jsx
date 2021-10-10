@@ -6,12 +6,12 @@ const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const onSubmit = data => console.log(data)
 
-    const homeImage = "https://images.unsplash.com/photo-1596430222039-4a2d7b4cd767?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+    const image = "https://images.unsplash.com/photo-1596430222039-4a2d7b4cd767?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
 
     return (
         <div>
             <div className="shadow-xl">
-                <img src={homeImage} alt="Galli Hompage Image" />
+                <img src={image} alt="Galli Login Image" />
             </div>
 
             <div className="pt-8">

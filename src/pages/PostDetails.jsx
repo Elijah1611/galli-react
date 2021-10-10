@@ -12,7 +12,7 @@ const PostDetails = () => {
                 <h2 className="font-intar font-bold">ChiChi</h2>
             </div>
             <div>
-                <img className="shadow-xl" src="https://images.unsplash.com/photo-1633326260376-4958df25f0e0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1760&q=80" alt="Post" />
+                <img className="shadow-xl" src="https://images.unsplash.com/photo-1633326259678-fec951d6a797?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80" alt="Post" />
             </div>
 
             <div className="text-red-500 gap-1 flex justify-center items-center mt-5">
@@ -40,7 +40,7 @@ const PostDetails = () => {
                     </div>
                 </div>
 
-                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-lg">Amazing! Great Post!</p>
+                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 my-4 rounded-lg shadow-lg">Amazing! Great Post!</p>
             </div>
 
 
@@ -56,7 +56,7 @@ const PostDetails = () => {
                     </div>
                 </div>
 
-                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-lg">Awesome! Great Post and color!</p>
+                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 my-4 rounded-lg shadow-lg">Awesome! Great Post and color!</p>
             </div>
         </div>
     )
