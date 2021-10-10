@@ -1,6 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
+import Navbar from "../components/Navbar";
+import ProfileNavbar from "../components/ProfileNavbar";
+
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
 import Login from '../pages/Login'
@@ -8,13 +11,20 @@ import Register from '../pages/Register'
 import Discover from '../pages/Discover'
 import Favorites from '../pages/Favorites'
 import PostDetails from '../pages/PostDetails'
+import Map from '../pages/Map'
 
 const GalliRouter = () => {
     return (
         <Router>
+            {/* <ProfileNavbar /> */}
+            <Navbar />
+
             <Switch>
                 <Route exact path="/discover">
                     <Discover />
+                </Route>
+                <Route exact path="/map">
+                    <Map />
                 </Route>
                 <Route exact path="/post/:post_id">
                     <PostDetails />
