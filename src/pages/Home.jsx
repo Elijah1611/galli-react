@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../components/Button'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     const homeImage = "https://images.unsplash.com/photo-1468877294001-94aef5ebfa1e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2370&q=80"
@@ -15,8 +16,13 @@ const Home = () => {
             </div>
 
             <div className="flex justify-around items-center mt-16 px-5">
-                <Button text="Log In" />
-                <Button text="Register" />
+                <Link to="/login">
+                    <Button text="Log In" />
+                </Link>
+
+                <Link to="/register">
+                    <Button text="Register" />
+                </Link>
             </div>
         </div>
     )

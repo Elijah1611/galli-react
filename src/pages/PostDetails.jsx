@@ -20,13 +20,13 @@ const PostDetails = () => {
                 <h4 className="font-inter font-bold text-xl">534,043</h4>
             </div>
 
-            <div className="flex justify-center text-blue-500 mt-10 mb-2 items-center font-inter font-bold text-lg">
-                <BiCommentDetail size="1.8rem" className="mr-1 " />
+            <div className="flex justify-center text-blue-500 mt-10 mb-2 items-center font-inter font-bold text-md">
+                <BiCommentDetail size="1.2rem" className="mr-1 " />
                 <h2 className="mr-1">14</h2>
                 <h3>Comments</h3>
             </div>
 
-            <hr className="bg-blue-500 opacity-75 h-0.5 rounded-full w-75 mx-10 mb-10" />
+            <hr className="bg-blue-200 opacity-75 h-0.5 rounded-full w-75 mx-10 mb-10" />
 
             <div className="flex px-5 mb-10">
                 <div className="flex flex-col justify-center">
@@ -40,7 +40,7 @@ const PostDetails = () => {
                     </div>
                 </div>
 
-                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-xl">Amazing! Great Post!</p>
+                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-lg">Amazing! Great Post!</p>
             </div>
 
 
@@ -56,7 +56,7 @@ const PostDetails = () => {
                     </div>
                 </div>
 
-                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-xl">Awesome! Great Post and color!</p>
+                <p className="flex-grow flex justify-center items-center text-sm font-inter font-bold p-5 ml-5 rounded-lg shadow-lg">Awesome! Great Post and color!</p>
             </div>
         </div>
     )
