@@ -14,6 +14,7 @@ import Discover from '../pages/Discover'
 import Favorites from '../pages/Favorites'
 import PostDetails from '../pages/PostDetails'
 import Map from '../pages/Map'
+import Upload from '../pages/Upload';
 
 const GalliRouter = () => {
     return (
@@ -27,6 +28,9 @@ const GalliRouter = () => {
                 </Route>
                 <Route exact path="/map">
                     <Map />
+                </Route>
+                <Route exact path="/upload">
+                    <Upload />
                 </Route>
                 <Route exact path="/post/:post_id">
                     <PostDetails />
