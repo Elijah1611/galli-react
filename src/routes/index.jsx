@@ -35,16 +35,16 @@ const GalliRouter = () => {
                 <Route exact path="/post/:post_id">
                     <PostDetails />
                 </Route>
-                <Route exact path="/favorites/:user_id">
+                <Route exact path="/favorites/:username">
                     <Favorites />
                 </Route>
-                <Route exact path="/profile/:user_id">
+                <Route exact path="/profile/:username">
                     <Profile />
                 </Route>
-                <Route exact path="/profile/:user_id/edit">
+                <Route exact path="/profile/:username/edit">
                     <EditProfile />
                 </Route>
-                <Route exact path="/profile/:user_id/remove">
+                <Route exact path="/profile/:username/remove">
                     <RemoveProfile />
                 </Route>
                 <Route exact path="/register">

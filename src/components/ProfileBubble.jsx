@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiFillHeart } from 'react-icons/ai'
 
-const ProfileBubble = () => {
+const ProfileBubble = ({ hearts, avatar, username }) => {
     return (
         <div className="flex justify-center items-center">
             <div className="flex flex-col justify-center items-center">

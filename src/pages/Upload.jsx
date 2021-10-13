@@ -75,7 +75,7 @@ const Upload = () => {
                         className={`${disableSubmit ? 'opacity-50' : ''} w-64 flex flex-col items-center px-4 py-6 text-blue-500 hover:bg-blue-600 hover:text-white rounded-md shadow-md tracking-wide uppercase border border-blue cursor-pointer ease-linear transition-all duration-150 hover:bg-blue-600`}>
                         <AiOutlineCloudUpload className="text-3xl" />
                         <span className="mt-2 text-base leading-normal">Select a file</span>
-                        <input type='file' class="hidden" accept="image/png, image/jpeg" onChange={() => setDisableSubmit(false)} {...register('image')} />
+                        <input type='file' className="hidden" accept="image/png, image/jpeg" onChange={() => setDisableSubmit(false)} {...register('image')} />
                     </label>
                 </div>
                 <p className="text-center text-sm mt-2">{imageFile ? imageFile[0]?.name : null}</p>

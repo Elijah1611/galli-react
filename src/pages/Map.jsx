@@ -3,7 +3,7 @@ import Heading from '../components/Heading'
 import MapButton from '../components/MapButton'
 
 const Map = () => {
-    const username = 'JessicaSky'
+    const username = 'Jayde.Schneider'
 
     return (
         <div>
