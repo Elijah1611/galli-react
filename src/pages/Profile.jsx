@@ -16,15 +16,17 @@ const Profile = () => {
 
 
     const renderUserPosts = () => {
-        return user.posts.length > 0 ? user.posts.map(p => (
-            <Link key={p.id} to={`/post/${p.id}`}>
-                <ProfilePost
-                    image={p.image_url}
-                    numOfLikes={p.favorites.length}
-                    numOfComments={p.comments.length}
-                />
-            </Link>
-        )) : <p className="font-bold text-center">No Posts Yet</p>
+        return user.posts.length > 0 ? user.posts
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+            .map(p => (
+                <Link key={p.id} to={`/post/${p.id}`}>
+                    <ProfilePost
+                        image={p.image_url}
+                        numOfLikes={p.favorites.length}
+                        numOfComments={p.comments.length}
+                    />
+                </Link>
+            )) : <p className="font-bold text-center">No Posts Yet</p>
     }
 
     return !useQuery.isLoading && user ? (

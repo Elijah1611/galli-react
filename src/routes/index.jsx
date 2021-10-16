@@ -21,6 +21,7 @@ const GalliRouter = () => {
         <Router>
             {/* <ProfileNavbar /> */}
             <Navbar />
+            <div className="h-16"></div>
 
             <Switch>
                 <Route exact path="/discover">
