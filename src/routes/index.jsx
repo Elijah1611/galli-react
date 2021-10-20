@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import Navbar from "../components/Navbar";
-import ProfileNavbar from "../components/ProfileNavbar";
 
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
@@ -13,48 +12,57 @@ import Register from '../pages/Register'
 import Discover from '../pages/Discover'
 import Favorites from '../pages/Favorites'
 import PostDetails from '../pages/PostDetails'
-import Map from '../pages/Map'
 import Upload from '../pages/Upload';
+import ProtectedRoute from './Protected';
 
 const GalliRouter = () => {
     return (
         <Router>
-            {/* <ProfileNavbar /> */}
             <Navbar />
             <div className="h-16"></div>
 
             <Switch>
-                <Route exact path="/discover">
+                <ProtectedRoute exact path="/discover">
                     <Discover />
-                </Route>
-                <Route exact path="/map">
-                    <Map />
-                </Route>
-                <Route exact path="/upload">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/upload">
                     <Upload />
-                </Route>
-                <Route exact path="/post/:post_id">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/post/:post_id">
                     <PostDetails />
-                </Route>
-                <Route exact path="/favorites/:username">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/favorites/:username">
                     <Favorites />
-                </Route>
-                <Route exact path="/profile/:username">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/profile/:username">
                     <Profile />
-                </Route>
-                <Route exact path="/profile/:username/edit">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/profile/:username/edit">
                     <EditProfile />
-                </Route>
-                <Route exact path="/profile/:username/remove">
+                </ProtectedRoute>
+
+                <ProtectedRoute exact path="/profile/:username/remove">
                     <RemoveProfile />
-                </Route>
+                </ProtectedRoute>
+
                 <Route exact path="/register">
                     <Register />
                 </Route>
+
                 <Route exact path="/login">
                     <Login />
                 </Route>
+
                 <Route exact path="/">
+                    <Home />
+                </Route>
+
+                <Route path="*">
                     <Home />
                 </Route>
             </Switch>

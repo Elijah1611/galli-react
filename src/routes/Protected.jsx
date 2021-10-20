@@ -1,19 +1,12 @@
 import React from 'react'
-import { Redirect } from 'react-router'
+import { Redirect, Route } from 'react-router'
 
-const Protected = ({ children }) => {
-    const isLoggedIn = window.localStorage.getItem('token')
+const ProtectedRoute = ({ children, ...rest }) => {
+    const isLoggedIn = window.localStorage.getItem('galli_token')
 
     return (
-        <React.Fragment>
-            {
-                isLoggedIn
-                    ? (
-                        <React.Fragment>{children}</React.Fragment>
-                    ) : <Redirect to="/login" />
-            }
-        </React.Fragment>
+        <Route {...rest} render={() => isLoggedIn ? children : <Redirect to="/login" />} />
     )
 }
 
-export default Protected
+export default ProtectedRoute
