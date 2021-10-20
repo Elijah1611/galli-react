@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Heading from '../components/Heading'
 import FavoriteCard from '../components/FavoriteCard'
 import { ImSpinner9 } from 'react-icons/im'
@@ -17,15 +17,18 @@ const Favorites = () => {
         return user ? user.favorites
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map(f => (
-                <FavoriteCard
-                    key={f.id}
-                    image={f.post.image_url}
-                    title={f.post.title}
-                    avatar={f.post.user.avatar_url}
-                    username={f.post.user.username}
-                    hearts={f.post.user.total_hearts}
-                    postDate={f.post.created_at}
-                />
+                <Fragment key={f.id}>
+                    <FavoriteCard
+                        id={f.id}
+                        post_id={f.post.id}
+                        image={f.post.image_url}
+                        title={f.post.title}
+                        avatar={f.post.user.avatar_url}
+                        username={f.post.user.username}
+                        hearts={f.post.user.total_hearts}
+                        favDate={f.created_at}
+                    />
+                </Fragment>
             )) : <h2>No Favorites Yet</h2>
     }
 
