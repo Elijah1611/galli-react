@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Heading from '../components/Heading'
-import { AiFillHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import ProfileBubble from '../components/ProfileBubble'
 import { useHistory, useParams } from 'react-router'
@@ -14,17 +14,72 @@ const PostDetails = () => {
     const history = useHistory()
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const { post_id } = useParams()
+    const user_id = localStorage.getItem('galli_user_id')
     const [commentError, setCommentError] = useState(false)
 
     const postQuery = useQuery('post', async () => await axios.get(`http://localhost:7000/api/posts/${post_id}/all`))
     const post = postQuery.data?.data
 
-    const mutation = useMutation(data => {
+    // Favorite Mutations
+    const addFavorite = useMutation(() => {
+        return axios.post('http://localhost:7000/api/favorites', { post_id, user_id })
+    },
+        {
+            onSuccess: (result) => {
+                postQuery.refetch()
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        })
+
+    const removeFavorite = useMutation(id => {
+        return axios.delete(`http://localhost:7000/api/favorites/${id}`)
+    },
+        {
+            onSuccess: (result) => {
+                postQuery.refetch()
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        })
+
+    const checkForIfFavorite = () => {
+        const result = post.favorites.filter(fav => fav.user_id === user_id)
+        if (result.length > 0) return true
+        return false
+    }
+
+    const handleFavorite = () => {
+        const isFav = checkForIfFavorite()
+        const currentFav = post.favorites.filter(fav => fav.user_id === user_id)
+        const favId = currentFav.length > 0 ? currentFav[0].id : null
+        console.log(isFav, currentFav, favId)
+        if (isFav && favId) {
+            removeFavorite.mutate(favId)
+        }
+        else if (!isFav && !favId) {
+            addFavorite.mutate()
+        }
+        else {
+            return null
+        }
+    }
+
+    const renderFavoriteButton = () => {
+        return checkForIfFavorite()
+            ? (<AiFillHeart size="2rem" className="drop-shadow-xl" onClick={handleFavorite} />)
+            : (<AiOutlineHeart size="2rem" className="drop-shadow-xl" onClick={handleFavorite} />)
+    }
+
+    // Comment Mutations
+    const commentMutation = useMutation(data => {
         return axios.post('http://localhost:7000/api/comments', data)
     },
         {
             onSuccess: (result) => {
-                history.go(0)
+                postQuery.refetch()
             },
             onError: (error) => {
                 console.log(error)
@@ -32,9 +87,9 @@ const PostDetails = () => {
             }
         })
 
-    const onSubmit = data => mutation.mutate({
+    const onSubmit = data => commentMutation.mutate({
         content: data.comment,
-        user_id: localStorage.getItem('galli_user_id'),
+        user_id,
         post_id
     })
 
@@ -86,7 +141,7 @@ const PostDetails = () => {
             </div>
 
             <div className="text-red-500 gap-1 flex justify-center items-center mt-5">
-                <AiFillHeart size="2rem" className="drop-shadow-xl" />
+                {renderFavoriteButton()}
                 <h4 className="font-inter font-bold text-xl">{post.favorites.length}</h4>
             </div>
 
@@ -110,7 +165,7 @@ const PostDetails = () => {
                 />
 
                 <div className="w-full flex justify-between items-center">
-                    <input className="font-inter font-bold shadow-xl text-xs py-1 px-4 rounded-2xl bg-blue-500 text-white" type="submit" value="Send" />
+                    <input className="font-inter font-bold shadow-xl text-xs py-1 px-4 rounded-2xl bg-blue-500 text-white" type="submit" value="Add" />
                     {commentError && <p className="text-xs text-red-600">Error: Something Went Wrong.</p>}
                     <p className="font-inter font-thin text-xs text-right">{watch('comment')?.length || 0}/160</p>
                 </div>

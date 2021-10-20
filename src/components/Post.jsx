@@ -1,10 +1,65 @@
 import React from 'react'
-import { AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import abbreviate from 'number-abbreviate'
 import { Link } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import axios from 'axios'
 
-const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfComments }) => {
+const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfComments, favorites, refetch }) => {
+    const user_id = localStorage.getItem('galli_user_id')
+
+    const addFavorite = useMutation(() => {
+        return axios.post('http://localhost:7000/api/favorites', { post_id: id, user_id })
+    },
+        {
+            onSuccess: (result) => {
+                refetch()
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        })
+
+    const removeFavorite = useMutation(fav_id => {
+        return axios.delete(`http://localhost:7000/api/favorites/${fav_id}`)
+    },
+        {
+            onSuccess: (result) => {
+                refetch()
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        })
+
+    const checkForIfFavorite = () => {
+        const result = favorites.filter(fav => fav.user_id === user_id)
+        if (result.length > 0) return true
+        return false
+    }
+
+    const handleFavorite = () => {
+        const isFav = checkForIfFavorite()
+        const currentFav = favorites.filter(fav => fav.user_id === user_id)
+        const favId = currentFav.length > 0 ? currentFav[0].id : null
+        console.log(isFav, currentFav, favId)
+        if (isFav && favId) {
+            removeFavorite.mutate(favId)
+        }
+        else if (!isFav && !favId) {
+            addFavorite.mutate()
+        }
+        else {
+            return null
+        }
+    }
+
+    const renderFavoriteButton = () => {
+        return checkForIfFavorite()
+            ? (<AiFillHeart size="2.2rem" className="text-red-600 ml-1" onClick={handleFavorite} />)
+            : (<AiOutlineHeart size="2.2rem" className="text-red-600 ml-1" onClick={handleFavorite} />)
+    }
 
     return (
         <div className="p-2 mb-10">
@@ -24,7 +79,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
             </div>
             <div className="flex items-center justify-between">
                 <div className="mt-1 flex items-center" onClick={() => console.log('You Liked this post!')}>
-                    <AiOutlineHeart size="2.2rem" className="text-red-600 ml-1" />
+                    {renderFavoriteButton()}
                     <h2 className="text-red-600 font-bold font-inter" >{abbreviate(numberOfLikes)}</h2>
                 </div>
 

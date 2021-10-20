@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { ImSpinner9 } from 'react-icons/im'
+import Loader from '../components/Loader'
 
 const Discover = () => {
     const postsQuery = useQuery('posts', async () => await axios.get('http://localhost:7000/api/posts/all'))
@@ -20,13 +21,11 @@ const Discover = () => {
                 username={post.user.username}
                 numberOfLikes={post.favorites.length}
                 numberOfComments={post.comments.length}
+                favorites={post.favorites}
+                refetch={postsQuery.refetch}
             />
         )
     }) : null
-
-    const loader = () => {
-        return
-    }
 
     return !postsQuery.isLoading ? (
         <div>
@@ -37,11 +36,7 @@ const Discover = () => {
             {console.log(postsQuery)}
             {console.log(posts)}
         </div>
-    ) : (
-        <div className="flex justify-center items-center">
-            <ImSpinner9 className="animate-spin text-7xl m-10" />
-        </div>
-    )
+    ) : <Loader />
 }
 
 export default Discover
