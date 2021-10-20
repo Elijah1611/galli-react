@@ -1,41 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Heading from '../components/Heading'
 import { AiFillHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import ProfileBubble from '../components/ProfileBubble'
-import { useParams } from 'react-router'
-import { useQuery } from 'react-query'
+import { useHistory, useParams } from 'react-router'
+import { useMutation, useQuery } from 'react-query'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import abbreviate from 'number-abbreviate'
+import { useForm } from 'react-hook-form'
 
 const PostDetails = () => {
+    const history = useHistory()
+    const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const { post_id } = useParams()
+    const [commentError, setCommentError] = useState(false)
+
     const postQuery = useQuery('post', async () => await axios.get(`http://localhost:7000/api/posts/${post_id}/all`))
     const post = postQuery.data?.data
 
+    const mutation = useMutation(data => {
+        return axios.post('http://localhost:7000/api/comments', data)
+    },
+        {
+            onSuccess: (result) => {
+                history.go(0)
+            },
+            onError: (error) => {
+                console.log(error)
+                setCommentError(true)
+            }
+        })
+
+    const onSubmit = data => mutation.mutate({
+        content: data.comment,
+        user_id: localStorage.getItem('galli_user_id'),
+        post_id
+    })
+
     const renderComments = () => {
-        return post.comments.map(comment => (
-            <div key={comment.id} className="flex px-5 mb-5">
-                <div className="flex flex-col justify-center items-center" style={{ minWidth: '50px', maxWidth: '50px' }} key={comment.id}>
+        return post.comments
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+            .map(comment => (
+                <div key={comment.id} className="flex px-5 mb-5">
+                    <div className="flex flex-col justify-center items-center" style={{ minWidth: '50px', maxWidth: '50px' }} key={comment.id}>
 
-                    <Link to={`/profile/${comment.user.username}`}>
-                        <img className="rounded-full w-28" src={comment.user.avatar_url} alt={comment.user.username} />
-                    </Link>
+                        <Link to={`/profile/${comment.user.username}`}>
+                            <img className="rounded-full w-28" src={comment.user.avatar_url} alt={comment.user.username} />
+                        </Link>
 
-                    <div className="text-red-500 flex items-center justify-center mt-1">
-                        <AiFillHeart size="1rem" className="drop-shadow-xl" />
-                        <h4 className="font-inter font-bold">{abbreviate(comment.user.total_hearts)}</h4>
+                        <div className="text-red-500 flex items-center justify-center mt-1">
+                            <AiFillHeart size="1rem" className="drop-shadow-xl" />
+                            <h4 className="font-inter font-bold">{abbreviate(comment.user.total_hearts)}</h4>
+                        </div>
+                    </div>
+
+                    <div className="flex-grow flex-col flex justify-center items-center font-inter p-5 ml-5 mt-4 mb-3 rounded-lg shadow-lg">
+                        <h3 className="font-bold text-xs self-start mb-1">{comment.user.username}</h3>
+                        <p className="text-xs">{comment.content}</p>
                     </div>
                 </div>
-
-                <div className="flex-grow flex-col flex justify-center items-center font-inter p-5 ml-5 mt-4 mb-3 rounded-lg shadow-lg">
-                    <h3 className="font-bold text-xs self-start mb-1">{comment.user.username}</h3>
-                    <p className="text-xs">{comment.content}</p>
-                </div>
-            </div>
-        )
-        )
+            )
+            )
     }
 
     return (
@@ -70,7 +96,25 @@ const PostDetails = () => {
                 <h3>Comments</h3>
             </div>
 
-            <hr className="bg-blue-200 opacity-75 h-0.5 rounded-full w-75 mx-10 mb-10" />
+            <hr className="bg-blue-200 opacity-75 h-0.5 rounded-full w-75 mx-10 mb-5" />
+
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-end px-10 mb-10">
+                <textarea
+                    className="w-full rounded-xl p-3 shadow-xl font-inter font-bold text-xs mb-2"
+                    {...register('comment', { minLength: 1, maxLength: 160 })}
+                    rows="2"
+                    maxLength="160"
+                    minLength="1"
+                    placeholder="Leave a comment..."
+                    required
+                />
+
+                <div className="w-full flex justify-between items-center">
+                    <input className="font-inter font-bold shadow-xl text-xs py-1 px-4 rounded-2xl bg-blue-500 text-white" type="submit" value="Send" />
+                    {commentError && <p className="text-xs text-red-600">Error: Something Went Wrong.</p>}
+                    <p className="font-inter font-thin text-xs text-right">{watch('comment')?.length || 0}/160</p>
+                </div>
+            </form>
 
             {renderComments()}
 

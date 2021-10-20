@@ -31,6 +31,7 @@ const Login = () => {
                 console.log('setting localstorage data')
                 localStorage.setItem('galli_token', result.data.access_token)
                 localStorage.setItem('galli_username', result.data.username)
+                localStorage.setItem('galli_user_id', result.data.id)
 
                 history.push('/discover')
             },
