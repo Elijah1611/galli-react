@@ -9,6 +9,8 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import abbreviate from 'number-abbreviate'
 import { useForm } from 'react-hook-form'
+import Loader from '../components/Loader'
+import Moment from 'react-moment'
 
 const PostDetails = () => {
     const history = useHistory()
@@ -97,7 +99,7 @@ const PostDetails = () => {
         return post.comments
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map(comment => (
-                <div key={comment.id} className="flex px-5 mb-5">
+                <div key={comment.id} className="flex px-5 mb-5 md:w-2/3 lg:w-2/4 md:mx-auto">
                     <div className="flex flex-col justify-center items-center" style={{ minWidth: '50px', maxWidth: '50px' }} key={comment.id}>
 
                         <Link to={`/profile/${comment.user.username}`}>
@@ -120,60 +122,67 @@ const PostDetails = () => {
     }
 
     return (
-        postQuery.isLoading ? <p>Loading</p> : <div>
-            {console.log(post)}
-            <Link to={`/profile/${post.user.username}`}>
-                <div className="flex items-center pt-5 pb-2 pl-2 gap-2">
-                    <img className="rounded-full w-14" src={post.user.avatar_url} alt={post.user.username} />
-
-                    <div className="flex flex-col">
-                        <h2 className="font-intar text-md font-bold">{post.user.username}</h2>
-
-                        <div className="text-red-500 text-xs flex items-center">
-                            <AiFillHeart size="1rem" className="drop-shadow-xl" />
-                            <h4 className="font-inter font-bold">{abbreviate(post.user.total_hearts)}</h4>
-                        </div>
-                    </div>
-                </div>
-            </Link>
+        postQuery.isLoading ? <Loader /> :
             <div>
-                <img className="shadow-xl" src={post.image_url} alt={post.title} />
-            </div>
+                <div className="flex items-center justify-center mx-2">
+                    <Link to={`/profile/${post.user.username}`}>
+                        <div className="flex justify-center items-center pt-5 pb-2 pl-2 gap-2">
+                            <img className="rounded-full w-14" src={post.user.avatar_url} alt={post.user.username} />
 
-            <div className="text-red-500 gap-1 flex justify-center items-center mt-5">
-                {renderFavoriteButton()}
-                <h4 className="font-inter font-bold text-xl">{post.favorites.length}</h4>
-            </div>
+                            <div className="flex flex-col">
+                                <h2 className="font-intar text-md font-bold">{post.user.username}</h2>
 
-            <div className="flex justify-center text-blue-500 mt-10 mb-2 items-center font-inter font-bold text-md">
-                <BiCommentDetail size="1.2rem" className="mr-1 " />
-                <h2 className="mr-1">{post.comments.length}</h2>
-                <h3>Comments</h3>
-            </div>
-
-            <hr className="bg-blue-200 opacity-75 h-0.5 rounded-full w-75 mx-10 mb-5" />
-
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-end px-10 mb-10">
-                <textarea
-                    className="w-full rounded-xl p-3 shadow-xl font-inter font-bold text-xs mb-2"
-                    {...register('comment', { minLength: 1, maxLength: 160 })}
-                    rows="2"
-                    maxLength="160"
-                    minLength="1"
-                    placeholder="Leave a comment..."
-                    required
-                />
-
-                <div className="w-full flex justify-between items-center">
-                    <input className="font-inter font-bold shadow-xl text-xs py-1 px-4 rounded-2xl bg-blue-500 text-white" type="submit" value="Add" />
-                    {commentError && <p className="text-xs text-red-600">Error: Something Went Wrong.</p>}
-                    <p className="font-inter font-thin text-xs text-right">{watch('comment')?.length || 0}/160</p>
+                                <div className="text-red-500 text-xs flex items-center">
+                                    <AiFillHeart size="1rem" className="drop-shadow-xl" />
+                                    <h4 className="font-inter font-bold">{abbreviate(post.user.total_hearts)}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
                 </div>
-            </form>
 
-            {renderComments()}
+                <div className="flex justify-center items-center mx-2">
+                    <img className="shadow-xl mx-auto sm:w-2/3 lg:w-3/6 xl:w-2/6 rounded-xl" src={post.image_url} alt={post.title} />
+                </div>
 
-        </div>
+                <div className="text-red-500 gap-1 flex justify-center items-center mt-5 cursor-pointer">
+                    {renderFavoriteButton()}
+                    <h4 className="font-inter font-bold text-xl">{post.favorites.length}</h4>
+                </div>
+
+                <h3 className="font-inter font-bold text-center text-lg opacity-40 my-10">
+                    <Moment fromNow>{post.created_at}</Moment>
+                </h3>
+
+                <div className="flex justify-center text-blue-500 mt-10 mb-2 items-center font-inter font-bold text-md">
+                    <BiCommentDetail size="1.2rem" className="mr-1 " />
+                    <h2 className="mr-1">{post.comments.length}</h2>
+                    <h3>Comments</h3>
+                </div>
+
+                <hr className="bg-blue-200 opacity-75 h-0.5 rounded-full md:w-72 mx-10 md:mx-auto mb-5" />
+
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-end px-10 mb-10">
+                    <textarea
+                        className="w-full md:w-2/3 xl:w-2/4 md:mx-auto rounded-xl p-3 shadow-md font-inter font-bold text-xs mb-2"
+                        {...register('comment', { minLength: 1, maxLength: 160 })}
+                        rows="2"
+                        maxLength="160"
+                        minLength="1"
+                        placeholder="Leave a comment..."
+                        required
+                    />
+
+                    <div className="w-full md:w-2/3 xl:w-2/4 md:mx-auto flex justify-between items-center">
+                        <input className="font-inter font-bold shadow-xl text-xs py-1 px-4 rounded-2xl bg-blue-500 text-white cursor-pointer" type="submit" value="Add" />
+                        {commentError && <p className="text-xs text-red-600">Error: Something Went Wrong.</p>}
+                        <p className="font-inter font-thin text-xs text-right">{watch('comment')?.length || 0}/160</p>
+                    </div>
+                </form>
+
+                {renderComments()}
+
+            </div>
     )
 }
 

@@ -9,7 +9,7 @@ const FavoriteCard = ({ id, post_id, image, title, avatar, username, hearts, fav
     console.log(avatar)
 
     return (
-        <div className="flex flex-row-reverse gap-4 px-5 mb-20">
+        <div className="flex justify-center items-center flex-row-reverse gap-4 px-5 mb-20">
             <div className="relative rounded-xl">
                 <div className="flex justify-center items-center gap-1 mt-2">
                     <AiFillClockCircle />
@@ -19,7 +19,7 @@ const FavoriteCard = ({ id, post_id, image, title, avatar, username, hearts, fav
                 </div>
 
                 <Link to={`/post/${post_id}`}>
-                    <img className="rounded-xl" src={image} alt={title} />
+                    <img className="rounded-xl w-full sm:w-[500px] md:w-[600px] lg:w-[700px] mx-auto" src={image} alt={title} />
                 </Link>
 
                 <Link to={`/profile/${username}`}>

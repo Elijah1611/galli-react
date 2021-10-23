@@ -14,6 +14,8 @@ import Favorites from '../pages/Favorites'
 import PostDetails from '../pages/PostDetails'
 import Upload from '../pages/Upload';
 import ProtectedRoute from './Protected';
+import UnprotectedRoute from './Unprotected';
+import { Fragment } from 'react/cjs/react.production.min';
 
 const GalliRouter = () => {
     return (
@@ -50,15 +52,15 @@ const GalliRouter = () => {
                     <RemoveProfile />
                 </ProtectedRoute>
 
-                <Route exact path="/register">
+                <UnprotectedRoute exact path="/register">
                     <Register />
-                </Route>
+                </UnprotectedRoute>
 
-                <Route exact path="/login">
+                <UnprotectedRoute exact path="/login">
                     <Login />
-                </Route>
+                </UnprotectedRoute>
 
-                <Route exact path="/">
+                <Route path="/">
                     <Home />
                 </Route>
 

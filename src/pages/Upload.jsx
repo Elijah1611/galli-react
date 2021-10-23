@@ -32,7 +32,7 @@ const Upload = () => {
 
     const previewImage = () => {
         return mutation.isSuccess ? (
-            <div>
+            <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
                 <img src={`http://${mutation.data.data.imageLoc}`} alt="Image" />
             </div>
         ) : null
@@ -72,7 +72,7 @@ const Upload = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex justify-center mt-10'>
                     <label
-                        className={`${disableSubmit ? 'opacity-50' : ''} w-64 flex flex-col items-center px-4 py-6 text-blue-500 hover:bg-blue-600 hover:text-white rounded-md shadow-md tracking-wide uppercase border border-blue cursor-pointer ease-linear transition-all duration-150 hover:bg-blue-600`}>
+                        className={`${disableSubmit ? 'opacity-50' : ''} w-64 flex flex-col items-center px-4 py-6 text-blue-500 hover:bg-blue-600 hover:text-white rounded-md shadow-md tracking-wide uppercase border border-blue cursor-pointer ease-linear transition-all duration-150`}>
                         <AiOutlineCloudUpload className="text-3xl" />
                         <span className="mt-2 text-base leading-normal">Select a file</span>
                         <input type='file' className="hidden" accept="image/png, image/jpeg" onChange={() => setDisableSubmit(false)} {...register('image')} />
@@ -82,7 +82,7 @@ const Upload = () => {
 
                 <div className="flex flex-col justify-center items-center gap-5 mb-8 mt-12">
                     <button
-                        className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl text-white bg-green-500 hover:bg-green-600 disabled:opacity-50"
+                        className="font-inter font-bold shadow-md active:shadow-sm px-12 py-4 rounded-2xl text-white bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                         type="submit"
                         disabled={(disableSubmit && imageFile) || !imageFile}
                     >
@@ -90,7 +90,7 @@ const Upload = () => {
                     </button>
                     <Link to='/discover'>
                         <button
-                            className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl"
+                            className="font-inter font-bold bg-blue-500 text-white shadow-md active:shadow-sm px-10 py-4 rounded-2xl"
                         >
                             Discover
                         </button>

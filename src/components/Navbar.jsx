@@ -8,19 +8,24 @@ import NavMenu from './NavMenu'
 import Profile from '../pages/Profile'
 
 const Navbar = () => {
-    const username = localStorage.getItem('galli_username')
-    const token = localStorage.getItem('galli_token')
+    const [username, setUsername] = useState('')
+    const [token, setToken] = useState('')
+
+    useEffect(() => {
+        setUsername(localStorage.getItem('galli_username'))
+        setToken(localStorage.getItem('galli_token'))
+    }, [])
 
     const renderHomeButton = () => {
         if (!token) return (
-            <Link to="/" className="col-span-3 flex justify-start items-center gap-1" >
+            <Link to="/" className="col-span-3 flex justify-start items-center gap-1 cursor-pointer" >
                 <IoGridSharp size="1.5rem" />
                 <h1 className="font-inria text-3xl">Galli</h1>
             </Link>
         )
 
         return (
-            <Link to='/discover' className="col-span-3 flex justify-start items-center gap-1" >
+            <Link to='/discover' className="col-span-3 flex justify-start items-center gap-1 cursor-pointer" >
                 <IoGridSharp size="1.5rem" />
                 <h1 className="font-inria text-3xl">Galli</h1>
             </Link>
@@ -49,7 +54,7 @@ const Navbar = () => {
 
             {/* {renderProfileBubble()} */}
 
-            {token && <NavMenu username={username} />}
+            {token ? <NavMenu username={username} /> : null}
         </div>
     )
 

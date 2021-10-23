@@ -10,8 +10,8 @@ const Register = () => {
 
     return (
         <div>
-            <div className="shadow-xl">
-                <img src={image} alt="Galli Register Image" />
+            <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
+                <img src={image} alt="Galli Register Image" className="shadow-xl md:rounded-xl" />
             </div>
 
             <div className="pt-8">
@@ -19,7 +19,7 @@ const Register = () => {
             </div>
 
             <form
-                className="grid grid-cols-1 p-5"
+                className="grid grid-cols-1 p-5 md:w-2/3 lg:w-2/4 xl:w-1/3 md:mx-auto"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <label className="font-inter font-bold mb-3" htmlFor="email">First Name</label>
@@ -81,7 +81,7 @@ const Register = () => {
                 </Link>
 
                 <input
-                    className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white"
+                    className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer"
                     type="submit"
                     value="Create"
                 />

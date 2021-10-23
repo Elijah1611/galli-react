@@ -48,7 +48,7 @@ const Profile = () => {
                 </h2>
             </div>
 
-            <div className="mb-10">
+            <div className="mb-10 md:w-4/6 lg:w-1/2 xl:w-1/3 md:mx-auto">
                 <h3 className="font-inter font-bold ml-5 mb-1">{user.first_name} {user.last_name}</h3>
                 <p className="font-inter font-thin px-5">
                     {user.bio ? user.bio : '...'}

@@ -18,13 +18,13 @@ const NavMenu = ({ username }) => {
         if (isHome) return null
 
         if (!isOpen) return (
-            <div className="col-span-1 flex justify-end items-center" onClick={() => setIsOpen(true)}>
+            <div className="col-span-1 flex justify-end items-center cursor-pointer" onClick={() => setIsOpen(true)}>
                 <HiOutlineMenuAlt3 size="1.5rem" />
             </div>
         )
 
         return (
-            <div className="col-span-1 flex justify-end items-center" onClick={() => setIsOpen(false)}>
+            <div className="col-span-1 flex justify-end items-center cursor-pointer" onClick={() => setIsOpen(false)}>
                 <IoCloseOutline size="2rem" />
             </div>
         )
@@ -41,7 +41,7 @@ const NavMenu = ({ username }) => {
 
             {
                 isOpen ? (
-                    <div className="absolute top-[4rem] right-0 z-50 font-bold font-inter capitalize text-center border border-gray-900 bg-white w-1/2 shadow-xl">
+                    <div className="absolute top-[4rem] right-0 z-50 font-inter capitalize text-center border border-gray-900 bg-white w-1/2 sm:w-1/3 lg:w-1/4 xl:w-1/6 shadow-xl">
                         <Link to="/discover" onClick={() => setIsOpen(false)}>
                             <button className="w-full flex items-center gap-2 p-2 border-b-2 hover:font-bold active:bg-blue-500 active:text-white">
                                 <GiWorld className="text-xl" />

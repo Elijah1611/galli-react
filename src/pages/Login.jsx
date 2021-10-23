@@ -28,10 +28,9 @@ const Login = () => {
     },
         {
             onSuccess: (result) => {
-                console.log('setting localstorage data')
+                console.log('setting localstorage data', result.data)
                 localStorage.setItem('galli_token', result.data.access_token)
                 localStorage.setItem('galli_username', result.data.username)
-                localStorage.setItem('galli_user_id', result.data.id)
 
                 history.push('/discover')
             },
@@ -65,8 +64,8 @@ const Login = () => {
 
     return (
         <div>
-            <div className="shadow-xl">
-                <img src={image} alt="Galli Login Image" />
+            <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
+                <img src={image} alt="Galli Login Image" className="shadow-xl md:rounded-xl" />
             </div>
 
             <div className="pt-8">
@@ -74,7 +73,7 @@ const Login = () => {
             </div>
 
             <form
-                className="grid grid-cols-1 p-5"
+                className="grid grid-cols-1 p-5 md:w-2/3 lg:w-2/4 xl:w-1/3 md:mx-auto"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <label className="font-inter font-bold mb-3" htmlFor="username">Username</label>
@@ -102,7 +101,7 @@ const Login = () => {
                     <button className="font-inter font-bold font-thin">Don't Have An Account?</button>
                 </Link>
 
-                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white" type="submit" value="Create" />
+                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Create" />
             </form>
         </div>
     )

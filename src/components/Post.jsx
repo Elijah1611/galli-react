@@ -5,8 +5,9 @@ import abbreviate from 'number-abbreviate'
 import { Link } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import axios from 'axios'
+import Moment from 'react-moment'
 
-const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfComments, favorites, refetch }) => {
+const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfComments, favorites, createdAt, refetch }) => {
     const user_id = localStorage.getItem('galli_user_id')
 
     const addFavorite = useMutation(() => {
@@ -62,8 +63,12 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
     }
 
     return (
-        <div className="p-2 mb-10">
-            <div className=" shadow-xl rounded-3xl">
+        <div className="p-2 mb-0 w-full md:mb-10 md:m-auto md:w-1/2 lg:w-2/4 xl:w-1/3">
+            <h3 className="font-inter font-bold text-center">
+                <Moment fromNow>{createdAt}</Moment>
+            </h3>
+
+            <div className="shadow-xl rounded-3xl">
                 <Link to={`/post/${id}`}>
                     <img className="rounded-3xl max-h-full w-full" src={image} alt={username} />
                 </Link>

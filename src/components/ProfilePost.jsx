@@ -61,15 +61,15 @@ const ProfilePost = ({ id, image, numOfLikes, numOfComments, favorites, refetch 
     }
 
     return (
-        <div>
+        <div className="mx-auto w-full md:w-[600px]">
             <Link to={`/post/${id}`}>
-                <div className="rounded-xl">
+                <div className="rounded-xl cursor-pointer">
                     <img src={image} alt="Post" className="rounded-xl" />
                 </div>
             </Link>
 
             <div className="flex justify-between">
-                <div className="mt-1 flex items-center">
+                <div className="mt-1 flex items-center cursor-pointer">
                     {renderFavoriteButton()}
                     <h2 className="text-red-600 font-bold font-inter" >{numOfLikes}</h2>
                 </div>
