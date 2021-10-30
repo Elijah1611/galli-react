@@ -9,13 +9,13 @@ import { ImSpinner9 } from 'react-icons/im'
 import NumberFormat from 'react-number-format';
 
 const Profile = () => {
-    const { username } = useParams()
+    const username = localStorage.getItem('galli_username')
     const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
     const user = userQuery.data?.data
 
     useEffect(async () => {
         userQuery.refetch()
-    }, [username]);
+    }, []);
 
     const renderUserPosts = () => {
         return user.posts.length > 0 ? user.posts

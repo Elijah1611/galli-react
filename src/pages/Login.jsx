@@ -21,8 +21,6 @@ const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const [is401Error, set401Error] = useState(false)
 
-    const existingUsername = localStorage.getItem('galli_username') || ''
-
     const mutation = useMutation(data => {
         return axios.post('http://localhost:7000/api/auth/login', data)
     },
@@ -81,7 +79,6 @@ const Login = () => {
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
                     {...register('username', { maxLength: 60 })}
                     type="text"
-                    defaultValue={existingUsername}
                     required
                 />
 
@@ -101,7 +98,7 @@ const Login = () => {
                     <button className="font-inter font-bold font-thin">Don't Have An Account?</button>
                 </Link>
 
-                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Create" />
+                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Log In" />
             </form>
         </div>
     )

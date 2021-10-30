@@ -33,6 +33,8 @@ const NavMenu = ({ username }) => {
     const handleLogout = () => {
         setIsOpen(false)
         localStorage.removeItem('galli_token')
+        localStorage.removeItem('galli_user_id')
+        localStorage.removeItem('galli_username')
     }
 
     return (

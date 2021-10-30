@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Heading from '../components/Heading'
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart, AiFillCloseCircle } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import ProfileBubble from '../components/ProfileBubble'
 import { useHistory, useParams } from 'react-router'
@@ -21,6 +21,19 @@ const PostDetails = () => {
 
     const postQuery = useQuery('post', async () => await axios.get(`http://localhost:7000/api/posts/${post_id}/all`))
     const post = postQuery.data?.data
+
+    // Post Mutations
+    const removePost = useMutation(() => {
+        return axios.delete(`http://localhost:7000/api/posts/${post_id}/`)
+    },
+        {
+            onSuccess: (result) => {
+                history.push('/discover')
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        })
 
     // Favorite Mutations
     const addFavorite = useMutation(() => {
@@ -141,7 +154,15 @@ const PostDetails = () => {
                     </Link>
                 </div>
 
-                <div className="flex justify-center items-center mx-2">
+                <div className="flex justify-center items-center mx-2 relative">
+                    {
+                        post.user.id === user_id ? (
+                            <div onClick={removePost.mutate} className="absolute top-0 right-0 left-0 mx-auto flex justify-end sm:w-2/3 lg:w-3/6 xl:w-2/6  text-red-500 text-xl cursor-pointer">
+                                <AiFillCloseCircle />
+                            </div>
+                        ) : null
+                    }
+
                     <img className="shadow-xl mx-auto sm:w-2/3 lg:w-3/6 xl:w-2/6 rounded-xl" src={post.image_url} alt={post.title} />
                 </div>
 

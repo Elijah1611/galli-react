@@ -1,12 +1,61 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import { useMutation } from 'react-query';
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const Register = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
-    const onSubmit = data => console.log(data)
-
     const image = "https://images.unsplash.com/photo-1627932123142-52c16a530ce9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2728&q=80"
+
+    const history = useHistory()
+    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const [is401Error, set401Error] = useState(false)
+    const [duplicateError, setDuplicateError] = useState(false)
+
+    const mutation = useMutation(data => {
+        return axios.post('http://localhost:7000/api/auth/register', data)
+    },
+        {
+            onSuccess: (result) => {
+                console.log('setting localstorage data', result.data)
+                localStorage.setItem('galli_token', result.data.access_token)
+                localStorage.setItem('galli_username', result.data.username)
+
+                history.push('/discover')
+            },
+            onError: (error) => {
+                console.log(error.message)
+                if (error.message.includes('401')) {
+                    set401Error(true)
+                }
+                if (error.message.includes('400')) {
+                    setDuplicateError(true)
+                }
+            }
+        })
+
+    useEffect(() => {
+        set401Error(false)
+    }, [])
+
+    const onSubmit = async loginData => {
+        console.log(loginData)
+        mutation.mutate(loginData)
+    }
+
+    const checkServerErrors = () => {
+        if (mutation.error) {
+            if (is401Error) return `Invalid Username and Password`
+
+            if (duplicateError) return 'User Already Exist or Invalid Info'
+
+            return 'Something Went Wrong'
+        }
+
+        return null
+    }
+
 
     return (
         <div>
@@ -72,8 +121,11 @@ const Register = () => {
                     type="password"
                     required
                 />
-                <p className="font-inter font-thin text-yellow-500 text-center text-sm mt-2 mb-8">
+                <p className="font-inter font-thin text-yellow-500 text-center text-sm mt-2 mb-2">
                     {errors.confirmPassword && "Passwords must match."}
+                </p>
+                <p className="font-inter font-thin text-yellow-500 text-center text-sm mb-8">
+                    <span className="text-red-500">{checkServerErrors()}</span>
                 </p>
 
                 <Link to="/login" className="text-center">

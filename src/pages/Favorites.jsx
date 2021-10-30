@@ -14,7 +14,7 @@ const Favorites = () => {
 
 
     const renderFavorites = () => {
-        return user ? user.favorites
+        return (user && user.favorites.length > 0) ? user.favorites
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map(f => (
                 <Fragment key={f.id}>
@@ -29,7 +29,7 @@ const Favorites = () => {
                         favDate={f.created_at}
                     />
                 </Fragment>
-            )) : <h2>No Favorites Yet</h2>
+            )) : <h2 className="flex justify-center items-center mt-10 text-2xl">No Favorites Yet..</h2>
     }
 
     return (

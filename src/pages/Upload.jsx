@@ -12,13 +12,26 @@ const Upload = () => {
     const imageFile = watch('image')
     const [disableSubmit, setDisableSubmit] = useState(false)
 
-    const mutation = useMutation(data => {
+    const postMutation = useMutation(data => {
+        return axios.post('http://localhost:7000/api/posts', data)
+    })
+
+    const uploadMutation = useMutation(data => {
         return axios.post('http://localhost:7000/api/upload/image', data, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         })
-    })
+    },
+        {
+            onSuccess: (result) => {
+                postMutation.mutate({
+                    title: 'Title',
+                    image_url: `http://${result.data.imageLoc}`,
+                    user_id: localStorage.getItem('galli_user_id')
+                })
+            }
+        })
 
 
     const onSubmit = files => {
@@ -26,30 +39,30 @@ const Upload = () => {
         console.log(image)
         const formData = new FormData()
         formData.append('image', image)
-        mutation.mutate(formData)
+        uploadMutation.mutate(formData)
         setDisableSubmit(true)
     }
 
     const previewImage = () => {
-        return mutation.isSuccess ? (
+        return uploadMutation.isSuccess ? (
             <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
-                <img src={`http://${mutation.data.data.imageLoc}`} alt="Image" />
+                <img src={`http://${uploadMutation.data.data.imageLoc}`} alt="Image" />
             </div>
         ) : null
     }
 
     const successMessage = () => {
-        return mutation.isSuccess ? <div className="text-center mt-2">Upload Complete!</div> : null
+        return uploadMutation.isSuccess ? <div className="text-center mt-2">Upload Complete!</div> : null
     }
 
     const errorMessage = () => {
-        return mutation.isError ? (
-            <div className="text-center">An error occurred: {mutation.error.message}</div>
+        return uploadMutation.isError ? (
+            <div className="text-center">An error occurred: {uploadMutation.error.message}</div>
         ) : null
     }
 
     const loader = () => {
-        return mutation.isLoading ? (<div className="flex justify-center items-center">
+        return uploadMutation.isLoading ? (<div className="flex justify-center items-center">
             <ImSpinner9 className="animate-spin text-7xl text-blue-500 m-10" />
         </div>) : null
     }

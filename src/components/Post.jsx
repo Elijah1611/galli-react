@@ -65,7 +65,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
     return (
         <div className="p-2 mb-0 w-full md:mb-10 md:m-auto md:w-1/2 lg:w-2/4 xl:w-1/3">
             <h3 className="font-inter font-bold text-center">
-                <Moment fromNow>{createdAt}</Moment>
+                <Moment fromNow>{new Date(new Date(createdAt) + 'Z')}</Moment>
             </h3>
 
             <div className="shadow-xl rounded-3xl">
