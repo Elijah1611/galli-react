@@ -14,7 +14,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
     const { id: user_id } = jwtDecode(token);
 
     const addFavorite = useMutation(() => {
-        return axios.post('http://localhost:7000/api/favorites', { post_id: id, user_id })
+        return axios.post('http://localhost:7000/api/posts/addLike', { post_id: id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -26,7 +26,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
         })
 
     const removeFavorite = useMutation(fav_id => {
-        return axios.delete(`http://localhost:7000/api/favorites/${fav_id}`)
+        return axios.post(`http://localhost:7000/api/posts/removeLike`, { post_id: id, user_id })
     },
         {
             onSuccess: (result) => {

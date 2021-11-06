@@ -5,10 +5,12 @@ import { ImSpinner9 } from 'react-icons/im'
 import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 
 const Favorites = () => {
-    const { username } = useParams()
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
+
     const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
     const user = userQuery.data?.data
 
@@ -29,7 +31,7 @@ const Favorites = () => {
                         favDate={f.created_at}
                     />
                 </Fragment>
-            )) : <h2 className="flex justify-center items-center mt-10 text-2xl">No Favorites Yet..</h2>
+            )) : <h2 className="flex justify-center items-center mt-10 text-2xl" data-testid="noFav">No Favorites Yet..</h2>
     }
 
     return (

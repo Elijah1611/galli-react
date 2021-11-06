@@ -32,6 +32,7 @@ const Profile = () => {
             )) : <p className="font-bold text-center">No Posts Yet</p>
     }
 
+
     return user ? (
         <div>
             <div className="flex flex-col justify-center items-center gap-4 mt-10 mb-5">

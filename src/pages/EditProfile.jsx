@@ -39,6 +39,7 @@ const EditProfile = () => {
             setValue('first_name', user.first_name)
             setValue('last_name', user.last_name)
             setValue('bio', user.bio)
+            setValue('avatar_url', user.avatar_url)
         }
     }, [user]);
 
@@ -50,7 +51,7 @@ const EditProfile = () => {
                 </div>
 
                 <div className="flex flex-col justify-center items-center">
-                    <h2 className="font-inter font-bold text-3xl">{user.username}</h2>
+                    <h2 className="font-inter font-bold text-3xl" data-testid="username">{user.username}</h2>
 
                     <div className="flex justify-center items-center">
                         <AiFillHeart size="2rem" className="text-red-500 drop-shadow-xl" />
@@ -75,38 +76,53 @@ const EditProfile = () => {
                     type="email"
                     maxLength="60"
                     required
+                    id="email"
+                    data-testid="emailField"
                 />
 
-                <label className="font-inter font-bold mb-3" htmlFor="email">First Name</label>
+                <label className="font-inter font-bold mb-3" htmlFor="firstName">First Name</label>
                 <input
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
                     {...register('first_name', { maxLength: 50 })}
                     type="text"
                     maxLength="50"
                     required
+                    id="firstName"
                 />
 
-                <label className="font-inter font-bold mb-3" htmlFor="email">Last Name</label>
+                <label className="font-inter font-bold mb-3" htmlFor="last_name">Last Name</label>
                 <input
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
                     {...register('last_name', { minLength: 1, maxLength: 50 })}
                     type="text"
                     maxLength="50"
+                    id="last_name"
                     required
                 />
 
-                <label className="font-inter font-bold mb-3" htmlFor="email">Bio</label>
+                <label className="font-inter font-bold mb-3" htmlFor="bio">Bio</label>
                 <textarea
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-2"
                     {...register('bio', { minLength: 1, maxLength: 160 })}
                     rows="5"
                     maxLength="160"
                     placeholder="Tell us about yourself..."
-                    required
+                    id="bio"
                 />
                 <p className="font-inter font-thin text-sm text-right">{watch('bio')?.length || 0}/160</p>
 
-                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Update" />
+                <label className="font-inter font-bold mb-3" htmlFor="avatarUrl">Avatar URL</label>
+                <input
+                    className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
+                    {...register('avatar_url', { minLength: 1 })}
+                    type="text"
+                    id="avatarUrl"
+                    required
+                />
+
+                <button className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" data-testid="updateBtn">
+                    Update
+                </button>
             </form>
 
             <div className="mb-10">

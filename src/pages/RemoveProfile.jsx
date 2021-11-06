@@ -19,7 +19,7 @@ const RemoveProfile = () => {
         <div>
             <div className="flex flex-col justify-center items-center gap-4 mt-10 mb-5">
                 <img className="rounded-full w-48 shadow-xl" src={user.avatar_url} alt={user.username} />
-                <h2 className="font-inter font-bold text-3xl">{user.username}</h2>
+                <h2 className="font-inter font-bold text-3xl" data-testid="username">{user.username}</h2>
             </div>
 
             <div className="flex justify-center items-center gap-2 mb-5">
@@ -37,7 +37,7 @@ const RemoveProfile = () => {
             </div>
 
             <div className="flex justify-center items-center">
-                <button className="font-inter font-bold text-white shadow-xl px-12 py-4 rounded-2xl bg-red-500">
+                <button className="font-inter font-bold text-white shadow-xl px-12 py-4 rounded-2xl bg-red-500" data-testid="removeBtn">
                     Yes, Remove My Account
                 </button>
             </div>
