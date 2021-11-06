@@ -20,9 +20,8 @@ const Register = () => {
             onSuccess: (result) => {
                 console.log('setting localstorage data', result.data)
                 localStorage.setItem('galli_token', result.data.access_token)
-                localStorage.setItem('galli_username', result.data.username)
 
-                history.push('/discover')
+                window.location.href = '/discover'
             },
             onError: (error) => {
                 console.log(error.message)
@@ -60,11 +59,11 @@ const Register = () => {
     return (
         <div>
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={image} alt="Galli Register Image" className="shadow-xl md:rounded-xl" />
+                <img src={image} alt="Galli Register Image" className="shadow-xl md:rounded-xl" data-testid="banner" />
             </div>
 
             <div className="pt-8">
-                <h1 className="font-inria font-bold text-center text-6xl">Sign Up</h1>
+                <h1 className="font-inria font-bold text-center text-6xl" data-testid="title">Sign Up</h1>
             </div>
 
             <form
@@ -77,6 +76,7 @@ const Register = () => {
                     {...register('first_name', { minLength: 1, maxLength: 50 })}
                     type="text"
                     required
+                    data-testid="firstNameField"
                 />
 
                 <label className="font-inter font-bold mb-3" htmlFor="email">Last Name</label>
@@ -128,15 +128,17 @@ const Register = () => {
                     <span className="text-red-500">{checkServerErrors()}</span>
                 </p>
 
-                <Link to="/login" className="text-center">
+                <button
+                    className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 bg-green-500 text-white cursor-pointer"
+                    type="submit"
+                    data-testid="createBtn"
+                >
+                    Create
+                </button>
+
+                <Link to="/login" className="text-center mt-8 mb-8">
                     <button className="font-inter font-bold font-thin">Have An Account?</button>
                 </Link>
-
-                <input
-                    className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer"
-                    type="submit"
-                    value="Create"
-                />
             </form>
 
 

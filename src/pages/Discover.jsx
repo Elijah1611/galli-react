@@ -6,26 +6,19 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { ImSpinner9 } from 'react-icons/im'
 import Loader from '../components/Loader'
+import jwtDecode from 'jwt-decode'
 
 const Discover = () => {
-    const username = localStorage.getItem('galli_username')
-    const user_id = localStorage.getItem('galli_user_id')
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
+
     console.log(username, user_id)
-    const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`), {
-        onSuccess: (result) => {
-            localStorage.setItem('galli_user_id', result.data.id)
-        }
-    })
+
+    const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
     const user = userQuery.data?.data
 
     const postsQuery = useQuery('posts', async () => await axios.get('http://localhost:7000/api/posts/all'))
     const posts = postsQuery.data?.data
-
-    // useEffect(() => {
-    //     if (!user_id || user_id === 'undefined') {
-    //         userQuery.refetch()
-    //     }
-    // }, [])
 
     const renderAllPosts = posts ? posts.map(post => {
         return (
@@ -46,7 +39,7 @@ const Discover = () => {
 
     return !postsQuery.isLoading ? (
         <div>
-            <Heading title="Discover" />
+            <Heading title="Discover" data-testid="title" />
 
             {renderAllPosts}
 

@@ -28,9 +28,8 @@ const Login = () => {
             onSuccess: (result) => {
                 console.log('setting localstorage data', result.data)
                 localStorage.setItem('galli_token', result.data.access_token)
-                localStorage.setItem('galli_username', result.data.username)
 
-                history.push('/discover')
+                window.location.href = '/discover'
             },
             onError: (error) => {
                 if (error.message.includes('401')) {
@@ -63,11 +62,11 @@ const Login = () => {
     return (
         <div>
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={image} alt="Galli Login Image" className="shadow-xl md:rounded-xl" />
+                <img src={image} alt="Galli Login Image" className="shadow-xl md:rounded-xl" data-testid="banner" />
             </div>
 
             <div className="pt-8">
-                <h1 className="font-inria font-bold text-center text-6xl">Sign In</h1>
+                <h1 className="font-inria font-bold text-center text-6xl" data-testid="title">Log In</h1>
             </div>
 
             <form
@@ -80,6 +79,7 @@ const Login = () => {
                     {...register('username', { maxLength: 60 })}
                     type="text"
                     required
+                    data-testid="usernameField"
                 />
 
                 <label className="font-inter font-bold mb-3" htmlFor="email">Password</label>
@@ -89,16 +89,23 @@ const Login = () => {
                     type="password"
                     required
                 />
-                <p className="font-inter font-thin text-yellow-500 text-center text-sm mt-2 mb-8">
+                <p className="font-inter font-thin text-yellow-500 text-center text-sm mt-2">
                     {errors.password && "Password must be between 6 to 128 characters."} <br />
                     <span className="text-red-500">{checkServerErrors()}</span>
                 </p>
 
-                <Link to="/register" className="text-center">
+                <button
+                    className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer"
+                    type="submit"
+                    data-testid="loginBtn"
+                >
+                    Log In
+                </button>
+
+
+                <Link to="/register" className="text-center mt-8 mb-8">
                     <button className="font-inter font-bold font-thin">Don't Have An Account?</button>
                 </Link>
-
-                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Log In" />
             </form>
         </div>
     )

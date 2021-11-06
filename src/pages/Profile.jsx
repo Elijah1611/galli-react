@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { AiFillHeart } from 'react-icons/ai'
@@ -8,14 +8,12 @@ import ProfilePost from '../components/ProfilePost'
 import { ImSpinner9 } from 'react-icons/im'
 import NumberFormat from 'react-number-format';
 
+
 const Profile = () => {
-    const username = localStorage.getItem('galli_username')
+    const { username } = useParams()
+
     const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
     const user = userQuery.data?.data
-
-    useEffect(async () => {
-        userQuery.refetch()
-    }, []);
 
     const renderUserPosts = () => {
         return user.posts.length > 0 ? user.posts
@@ -40,16 +38,16 @@ const Profile = () => {
                 <img className="rounded-full w-48 shadow-xl" src={user.avatar_url} alt={username} />
                 <h2 className="font-inter font-bold text-3xl">{username}</h2>
             </div>
-            {console.log(user.total_hearts)}
+            {console.log(user.likes)}
             <div className="flex justify-center items-center gap-2 mb-10">
                 <AiFillHeart size="2.5rem" className="text-red-500 drop-shadow-xl" />
                 <h2 className="font-inter font-bold text-lg text-red-500">
-                    <NumberFormat value={user.total_hearts} displayType={'text'} thousandSeparator={true} />
+                    <NumberFormat value={user.likes} displayType={'text'} thousandSeparator={true} />
                 </h2>
             </div>
 
             <div className="mb-10 md:w-4/6 lg:w-1/2 xl:w-1/3 md:mx-auto">
-                <h3 className="font-inter font-bold ml-5 mb-1">{user.first_name} {user.last_name}</h3>
+                <h3 className="font-inter font-bold ml-5 mb-1 capitalize">{user.first_name} {user.last_name}</h3>
                 <p className="font-inter font-thin px-5">
                     {user.bio ? user.bio : '...'}
                 </p>

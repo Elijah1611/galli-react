@@ -11,12 +11,16 @@ import abbreviate from 'number-abbreviate'
 import { useForm } from 'react-hook-form'
 import Loader from '../components/Loader'
 import Moment from 'react-moment'
+import jwtDecode from 'jwt-decode'
 
 const PostDetails = () => {
     const history = useHistory()
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const { post_id } = useParams()
-    const user_id = localStorage.getItem('galli_user_id')
+
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
+
     const [commentError, setCommentError] = useState(false)
 
     const postQuery = useQuery('post', async () => await axios.get(`http://localhost:7000/api/posts/${post_id}/all`))
@@ -37,7 +41,7 @@ const PostDetails = () => {
 
     // Favorite Mutations
     const addFavorite = useMutation(() => {
-        return axios.post('http://localhost:7000/api/favorites', { post_id, user_id })
+        return axios.post('http://localhost:7000/api/posts/addLike', { post_id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -49,7 +53,7 @@ const PostDetails = () => {
         })
 
     const removeFavorite = useMutation(id => {
-        return axios.delete(`http://localhost:7000/api/favorites/${id}`)
+        return axios.post(`http://localhost:7000/api/posts/removeLike`, { post_id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -121,7 +125,7 @@ const PostDetails = () => {
 
                         <div className="text-red-500 flex items-center justify-center mt-1">
                             <AiFillHeart size="1rem" className="drop-shadow-xl" />
-                            <h4 className="font-inter font-bold">{abbreviate(comment.user.total_hearts)}</h4>
+                            <h4 className="font-inter font-bold">{abbreviate(comment.user.likes)}</h4>
                         </div>
                     </div>
 
@@ -147,7 +151,7 @@ const PostDetails = () => {
 
                                 <div className="text-red-500 text-xs flex items-center">
                                     <AiFillHeart size="1rem" className="drop-shadow-xl" />
-                                    <h4 className="font-inter font-bold">{abbreviate(post.user.total_hearts)}</h4>
+                                    <h4 className="font-inter font-bold">{abbreviate(post.user.likes)}</h4>
                                 </div>
                             </div>
                         </div>
@@ -157,8 +161,8 @@ const PostDetails = () => {
                 <div className="flex justify-center items-center mx-2 relative">
                     {
                         post.user.id === user_id ? (
-                            <div onClick={removePost.mutate} className="absolute top-0 right-0 left-0 mx-auto flex justify-end sm:w-2/3 lg:w-3/6 xl:w-2/6  text-red-500 text-xl cursor-pointer">
-                                <AiFillCloseCircle />
+                            <div onClick={removePost.mutate} className="absolute top-0 right-0 left-0 mx-auto flex justify-end sm:w-2/3 lg:w-3/6 xl:w-2/6  text-black text-xl cursor-pointer">
+                                <AiFillCloseCircle className="bg-white rounded-full" />
                             </div>
                         ) : null
                     }

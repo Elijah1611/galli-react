@@ -1,44 +1,71 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router'
+import React, { useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { AiFillHeart } from 'react-icons/ai'
+import jwtDecode from 'jwt-decode'
+import axios from 'axios'
+import { useQuery, useMutation } from 'react-query'
+import Loader from '../components/Loader'
+import Moment from 'react-moment'
 
 const EditProfile = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
-    const onSubmit = data => console.log(data)
-    const params = useParams()
+    const history = useHistory()
+    const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({ mode: 'onBlur' })
 
-    return (
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
+
+    const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
+    const user = userQuery.data?.data
+
+    const updateProfile = useMutation((data) => {
+        return axios.patch(`http://localhost:7000/api/users/${user_id}`, data)
+    },
+        {
+            onSuccess: (result) => {
+                history.push(`/profile/${username}`)
+            },
+            onError: (error) => {
+                console.log(error)
+            }
+        }
+    )
+
+    const onSubmit = data => updateProfile.mutate(data)
+
+    useEffect(() => {
+        if (user) {
+            setValue('email', user.email)
+            setValue('first_name', user.first_name)
+            setValue('last_name', user.last_name)
+            setValue('bio', user.bio)
+        }
+    }, [user]);
+
+    return user ? (
         <div>
-            <div className="flex justify-around items-center">
+            <div className="flex flex-col mb-10 justify-around items-center">
                 <div className="flex flex-col justify-center items-center mt-10 mb-5">
-                    <img className="rounded-full w-32 shadow-xl" src="https://i.pravatar.cc/300?img=36" alt={params.user_id} />
+                    <img className="rounded-full w-32 shadow-md" src={user.avatar_url} alt={user.username} />
                 </div>
 
-                <div className="flex flex-col justify-center items-start">
-                    <h2 className="font-inter font-bold text-3xl">{params.user_id}</h2>
+                <div className="flex flex-col justify-center items-center">
+                    <h2 className="font-inter font-bold text-3xl">{user.username}</h2>
 
                     <div className="flex justify-center items-center">
-                        <AiFillHeart size="2.5rem" className="text-red-500 drop-shadow-xl" />
-                        <h2 className="font-inter font-bold text-lg text-red-500">52,345</h2>
+                        <AiFillHeart size="2rem" className="text-red-500 drop-shadow-xl" />
+                        <h2 className="font-inter font-bold text-lg text-red-500">{user.likes}</h2>
                     </div>
                 </div>
             </div>
 
             <div className="mb-5">
-                <h3 className="font-inter font-bold ml-5 mb-1">Jessica Sky</h3>
-                <p className="font-inter font-thin px-5">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit doloribus sed soluta at dolores maxime asperiores porro numquam delectus obcaecati.
-                </p>
-            </div>
-
-            <div className="mb-5">
-                <h3 className="font-inter font-bold text-center">Joined: July 2020</h3>
+                <h3 className="font-inter font-bold text-center">Joined: <Moment fromNow>{user.created_at}</Moment></h3>
+                <h3 className="font-inter font-light opacity-25 text-center"><Moment format="MMM DD, YYYY">{user.created_at}</Moment></h3>
             </div>
 
             <form
-                className="grid grid-cols-1 p-5 pt-0"
+                className="grid grid-cols-1 md:w-2/3 lg:w-2/4 xl:w-1/3 mx-auto p-5 pt-0"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <label className="font-inter font-bold mb-3" htmlFor="email">Email</label>
@@ -47,34 +74,31 @@ const EditProfile = () => {
                     {...register('email', { maxLength: 60 })}
                     type="email"
                     maxLength="60"
-                    value="JessicaSky@gmail.com"
                     required
                 />
 
                 <label className="font-inter font-bold mb-3" htmlFor="email">First Name</label>
                 <input
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
-                    {...register('first_name', { minLength: 6, maxLength: 50 })}
+                    {...register('first_name', { maxLength: 50 })}
                     type="text"
                     maxLength="50"
-                    value="Jessica"
                     required
                 />
 
                 <label className="font-inter font-bold mb-3" htmlFor="email">Last Name</label>
                 <input
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-6"
-                    {...register('last_name', { minLength: 6, maxLength: 50 })}
+                    {...register('last_name', { minLength: 1, maxLength: 50 })}
                     type="text"
                     maxLength="50"
-                    value="Sky"
                     required
                 />
 
                 <label className="font-inter font-bold mb-3" htmlFor="email">Bio</label>
                 <textarea
                     className="rounded-md bg-[#ebebeb] p-3 shadow-md font-inter font-bold mb-2"
-                    {...register('bio', { minLength: 6, maxLength: 160 })}
+                    {...register('bio', { minLength: 1, maxLength: 160 })}
                     rows="5"
                     maxLength="160"
                     placeholder="Tell us about yourself..."
@@ -82,17 +106,17 @@ const EditProfile = () => {
                 />
                 <p className="font-inter font-thin text-sm text-right">{watch('bio')?.length || 0}/160</p>
 
-                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white" type="submit" value="Update" />
+                <input className="font-inter font-bold shadow-xl px-12 py-4 rounded-2xl mb-8 mt-8 bg-green-500 text-white cursor-pointer" type="submit" value="Update" />
             </form>
 
             <div className="mb-10">
-                <Link to={`/profile/${params.user_id}/remove`}>
+                <Link to={`/profile/${user.username}/remove`}>
                     <h3 className="font-inter font-bold text-center text-red-500">Remove Profile</h3>
                 </Link>
             </div>
 
         </div>
-    )
+    ) : <Loader />
 }
 
 export default EditProfile

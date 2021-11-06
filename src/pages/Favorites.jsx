@@ -25,7 +25,7 @@ const Favorites = () => {
                         title={f.post.title}
                         avatar={f.post.user.avatar_url}
                         username={f.post.user.username}
-                        hearts={f.post.user.total_hearts}
+                        hearts={f.post.user.likes}
                         favDate={f.created_at}
                     />
                 </Fragment>

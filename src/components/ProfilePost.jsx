@@ -4,12 +4,15 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 
 const ProfilePost = ({ id, image, numOfLikes, numOfComments, favorites, refetch }) => {
-    const user_id = localStorage.getItem('galli_user_id')
+
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
 
     const addFavorite = useMutation(() => {
-        return axios.post('http://localhost:7000/api/favorites', { post_id: id, user_id })
+        return axios.post('http://localhost:7000/api/posts/addLike', { post_id: id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -21,7 +24,7 @@ const ProfilePost = ({ id, image, numOfLikes, numOfComments, favorites, refetch 
         })
 
     const removeFavorite = useMutation(fav_id => {
-        return axios.delete(`http://localhost:7000/api/favorites/${fav_id}`)
+        return axios.post(`http://localhost:7000/api/posts/removeLike`, { post_id: id, user_id })
     },
         {
             onSuccess: (result) => {

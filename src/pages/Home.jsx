@@ -11,11 +11,11 @@ const Home = () => {
     return (
         <div className="mb-20">
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={homeImage} alt="Galli Hompage Image" className="shadow-xl md:rounded-xl" />
+                <img src={homeImage} alt="Galli Hompage Image" className="shadow-xl md:rounded-xl" data-testid="home-image" />
             </div>
 
             <div className="p-8 text-center">
-                <h1 className="font-inria font-bold text-8xl">Galli</h1>
+                <h1 className="font-inria font-bold text-8xl" data-testid="home-title">Galli</h1>
                 <h2 className="font-inter font-thin text-2xl">View. Life. Gallery</h2>
             </div>
 
@@ -24,17 +24,17 @@ const Home = () => {
                     !isLoggedIn
                         ? (
                             <Fragment>
-                                <Link to="/login">
+                                <Link to="/login" data-testid="loginBtn">
                                     <Button text="Log In" />
                                 </Link>
 
-                                <Link to="/register">
+                                <Link to="/register" data-testid="registerBtn">
                                     <Button text="Register" />
                                 </Link>
                             </Fragment>
                         )
                         : (
-                            <Link to="/discover">
+                            <Link to="/discover" data-testid="discoverBtn">
                                 <Button text="Discover" />
                             </Link>
                         )

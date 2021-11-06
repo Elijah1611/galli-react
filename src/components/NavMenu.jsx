@@ -6,8 +6,12 @@ import { BiCamera, BiHeart } from 'react-icons/bi'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { HiOutlineMenuAlt3 } from 'react-icons/hi'
 import { IoCloseOutline } from 'react-icons/io5'
+import jwtDecode from 'jwt-decode'
 
-const NavMenu = ({ username }) => {
+const NavMenu = () => {
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
+
     const [isOpen, setIsOpen] = useState(false)
 
     const location = useLocation()
@@ -32,9 +36,13 @@ const NavMenu = ({ username }) => {
 
     const handleLogout = () => {
         setIsOpen(false)
+        window.location.href = '/'
         localStorage.removeItem('galli_token')
-        localStorage.removeItem('galli_user_id')
-        localStorage.removeItem('galli_username')
+    }
+
+    const handleProfile = () => {
+        setIsOpen(false)
+        window.location.href = `/profile/${username}`
     }
 
     return (
@@ -51,10 +59,16 @@ const NavMenu = ({ username }) => {
                             </button>
                         </Link>
 
-                        <Link to={`/profile/${username}`} onClick={() => setIsOpen(false)}>
+
+                        <button onClick={() => handleProfile()} className="w-full flex items-center gap-2 p-2 border-b-2 hover:font-bold active:bg-blue-500 active:text-white">
+                            <FaRegUserCircle className="text-xl" />
+                            <h2>Profile</h2>
+                        </button>
+
+                        <Link to={`/profile/${username}/edit`} onClick={() => setIsOpen(false)}>
                             <button className="w-full flex items-center gap-2 p-2 border-b-2 hover:font-bold active:bg-blue-500 active:text-white">
                                 <FaRegUserCircle className="text-xl" />
-                                <h2>Profile</h2>
+                                <h2>Edit Profile</h2>
                             </button>
                         </Link>
 
@@ -72,12 +86,10 @@ const NavMenu = ({ username }) => {
                             </button>
                         </Link>
 
-                        <Link to={`/`} onClick={handleLogout}>
-                            <button className="w-full flex items-center gap-2 p-2 border-b-2 hover:font-bold active:bg-blue-500 active:text-white">
-                                <IoLogOutOutline className="text-xl" />
-                                <h2>Logout</h2>
-                            </button>
-                        </Link>
+                        <button onClick={handleLogout} className="w-full flex items-center gap-2 p-2 border-b-2 hover:font-bold active:bg-blue-500 active:text-white">
+                            <IoLogOutOutline className="text-xl" />
+                            <h2>Logout</h2>
+                        </button>
                     </div>
                 ) : null
             }

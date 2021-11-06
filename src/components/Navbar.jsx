@@ -6,15 +6,10 @@ import { IoGridSharp } from 'react-icons/io5'
 import { AiFillHeart } from 'react-icons/ai'
 import NavMenu from './NavMenu'
 import Profile from '../pages/Profile'
+import jwtDecode from 'jwt-decode'
 
 const Navbar = () => {
-    const [username, setUsername] = useState('')
-    const [token, setToken] = useState('')
-
-    useEffect(() => {
-        setUsername(localStorage.getItem('galli_username'))
-        setToken(localStorage.getItem('galli_token'))
-    }, [])
+    const token = localStorage.getItem('galli_token')
 
     const renderHomeButton = () => {
         if (!token) return (
@@ -53,8 +48,8 @@ const Navbar = () => {
             {renderHomeButton()}
 
             {/* {renderProfileBubble()} */}
-
-            {token ? <NavMenu username={username} /> : null}
+            {console.log(token)}
+            {token ? <NavMenu /> : null}
         </div>
     )
 

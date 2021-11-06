@@ -6,11 +6,15 @@ import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { ImSpinner9 } from 'react-icons/im'
 import { useMutation } from 'react-query'
 import axios from 'axios';
+import jwtDecode from 'jwt-decode'
 
 const Upload = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const imageFile = watch('image')
     const [disableSubmit, setDisableSubmit] = useState(false)
+
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id, username } = jwtDecode(token);
 
     const postMutation = useMutation(data => {
         return axios.post('http://localhost:7000/api/posts', data)
@@ -28,7 +32,7 @@ const Upload = () => {
                 postMutation.mutate({
                     title: 'Title',
                     image_url: `http://${result.data.imageLoc}`,
-                    user_id: localStorage.getItem('galli_user_id')
+                    user_id
                 })
             }
         })

@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import Moment from 'react-moment'
+import 'moment-timezone';
+import jwtDecode from 'jwt-decode'
 
 const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfComments, favorites, createdAt, refetch }) => {
-    const user_id = localStorage.getItem('galli_user_id')
+    const token = localStorage.getItem('galli_token')
+    const { id: user_id } = jwtDecode(token);
 
     const addFavorite = useMutation(() => {
         return axios.post('http://localhost:7000/api/favorites', { post_id: id, user_id })
@@ -65,7 +68,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
     return (
         <div className="p-2 mb-0 w-full md:mb-10 md:m-auto md:w-1/2 lg:w-2/4 xl:w-1/3">
             <h3 className="font-inter font-bold text-center">
-                <Moment fromNow>{new Date(new Date(createdAt) + 'Z')}</Moment>
+                <Moment fromNow tz='America/Chicago'>{new Date(createdAt)}</Moment>
             </h3>
 
             <div className="shadow-xl rounded-3xl">
@@ -83,7 +86,7 @@ const Post = ({ id, image, profileImage, username, numberOfLikes, numberOfCommen
                 </Link>
             </div>
             <div className="flex items-center justify-between">
-                <div className="mt-1 flex items-center" onClick={() => console.log('You Liked this post!')}>
+                <div className="mt-1 flex items-center cursor-pointer" onClick={() => console.log('You Liked this post!')}>
                     {renderFavoriteButton()}
                     <h2 className="text-red-600 font-bold font-inter" >{abbreviate(numberOfLikes)}</h2>
                 </div>
