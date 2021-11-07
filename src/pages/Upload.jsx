@@ -49,8 +49,8 @@ const Upload = () => {
 
     const previewImage = () => {
         return uploadMutation.isSuccess ? (
-            <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
-                <img src={`http://${uploadMutation.data.data.imageLoc}`} alt="Upload Preview" />
+            <div className="w-full md:w-3/4 lg:w-1/2 mx-auto flex justify-center">
+                <img src={`${process.env.REACT_APP_API_URL}/image/${uploadMutation.data.data.key}`} alt="Upload Preview" />
             </div>
         ) : null
     }
