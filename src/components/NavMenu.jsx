@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode'
 
 const NavMenu = () => {
     const token = localStorage.getItem('galli_token')
-    const { id: user_id, username } = jwtDecode(token);
+    const { username } = jwtDecode(token);
 
     const [isOpen, setIsOpen] = useState(false)
 

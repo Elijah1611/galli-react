@@ -5,7 +5,7 @@ import ProfileBubble from '../components/ProfileBubble'
 import { AiFillClockCircle } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 
-const FavoriteCard = ({ id, post_id, image, title, avatar, username, hearts, favDate }) => {
+const FavoriteCard = ({ post_id, image, title, avatar, username, hearts, favDate }) => {
     console.log(avatar)
 
     return (

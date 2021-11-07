@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useMutation } from 'react-query';
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 
 // capture form login
 // send form login to backend for JWT token
@@ -17,8 +16,7 @@ import { useHistory } from 'react-router-dom'
 const Login = () => {
     const image = "https://images.unsplash.com/photo-1596430222039-4a2d7b4cd767?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
 
-    const history = useHistory()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const [is401Error, set401Error] = useState(false)
 
     const mutation = useMutation(data => {
@@ -62,7 +60,7 @@ const Login = () => {
     return (
         <div>
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={image} alt="Galli Login Image" className="shadow-xl md:rounded-xl" data-testid="banner" />
+                <img src={image} alt="Galli Login Banner" className="shadow-xl md:rounded-xl" data-testid="banner" />
             </div>
 
             <div className="pt-8">
@@ -104,7 +102,7 @@ const Login = () => {
 
 
                 <Link to="/register" className="text-center mt-8 mb-8">
-                    <button className="font-inter font-bold font-thin">Don't Have An Account?</button>
+                    <button className="font-inter font-thin">Don't Have An Account?</button>
                 </Link>
             </form>
         </div>

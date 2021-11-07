@@ -9,12 +9,12 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode'
 
 const Upload = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, watch } = useForm()
     const imageFile = watch('image')
     const [disableSubmit, setDisableSubmit] = useState(false)
 
     const token = localStorage.getItem('galli_token')
-    const { id: user_id, username } = jwtDecode(token);
+    const { id: user_id } = jwtDecode(token);
 
     const postMutation = useMutation(data => {
         return axios.post(`${process.env.REACT_APP_API_URL}/posts`, data)
@@ -50,7 +50,7 @@ const Upload = () => {
     const previewImage = () => {
         return uploadMutation.isSuccess ? (
             <div className="w-full md:w-3/4 lg:w-1/2 mx-auto">
-                <img src={`http://${uploadMutation.data.data.imageLoc}`} alt="Image" />
+                <img src={`http://${uploadMutation.data.data.imageLoc}`} alt="Upload Preview" />
             </div>
         ) : null
     }

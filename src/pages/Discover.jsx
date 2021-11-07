@@ -1,23 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Post from '../components/Post'
 import Heading from '../components/Heading'
 import { useQuery } from 'react-query'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { ImSpinner9 } from 'react-icons/im'
 import Loader from '../components/Loader'
-import jwtDecode from 'jwt-decode'
 
 const Discover = () => {
-    const token = localStorage.getItem('galli_token')
-    const { id: user_id, username } = jwtDecode(token);
-
-    console.log(username, user_id)
-    console.log(process.env.REACT_APP_API_URL)
-
-    const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
-    const user = userQuery.data?.data
-
     const postsQuery = useQuery('posts', async () => await axios.get(`${process.env.REACT_APP_API_URL}/posts/all`))
     const posts = postsQuery.data?.data
 
@@ -43,9 +31,6 @@ const Discover = () => {
             <Heading title="Discover" data-testid="title" />
 
             {renderAllPosts}
-
-            {console.log(postsQuery)}
-            {console.log(posts)}
         </div>
     ) : <Loader />
 }

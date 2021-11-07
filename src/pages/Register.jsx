@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useMutation } from 'react-query';
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 
 const Register = () => {
     const image = "https://images.unsplash.com/photo-1627932123142-52c16a530ce9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2728&q=80"
 
-    const history = useHistory()
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const [is401Error, set401Error] = useState(false)
     const [duplicateError, setDuplicateError] = useState(false)
@@ -59,7 +57,7 @@ const Register = () => {
     return (
         <div>
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={image} alt="Galli Register Image" className="shadow-xl md:rounded-xl" data-testid="banner" />
+                <img src={image} alt="Galli Banner" className="shadow-xl md:rounded-xl" data-testid="banner" />
             </div>
 
             <div className="pt-8">
@@ -137,7 +135,7 @@ const Register = () => {
                 </button>
 
                 <Link to="/login" className="text-center mt-8 mb-8">
-                    <button className="font-inter font-bold font-thin">Have An Account?</button>
+                    <button className="font-inter font-thin">Have An Account?</button>
                 </Link>
             </form>
 

@@ -1,15 +1,13 @@
 import React, { Fragment } from 'react'
 import Heading from '../components/Heading'
 import FavoriteCard from '../components/FavoriteCard'
-import { ImSpinner9 } from 'react-icons/im'
-import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
 const Favorites = () => {
     const token = localStorage.getItem('galli_token')
-    const { id: user_id, username } = jwtDecode(token);
+    const { username } = jwtDecode(token);
 
     const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
     const user = userQuery.data?.data

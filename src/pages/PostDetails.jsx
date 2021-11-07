@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import Heading from '../components/Heading'
 import { AiFillHeart, AiOutlineHeart, AiFillCloseCircle } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
-import ProfileBubble from '../components/ProfileBubble'
 import { useHistory, useParams } from 'react-router'
 import { useMutation, useQuery } from 'react-query'
 import axios from 'axios'
@@ -15,11 +13,11 @@ import jwtDecode from 'jwt-decode'
 
 const PostDetails = () => {
     const history = useHistory()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, watch } = useForm()
     const { post_id } = useParams()
 
     const token = localStorage.getItem('galli_token')
-    const { id: user_id, username } = jwtDecode(token);
+    const { id: user_id } = jwtDecode(token);
 
     const [commentError, setCommentError] = useState(false)
 
@@ -31,7 +29,7 @@ const PostDetails = () => {
         return axios.delete(`${process.env.REACT_APP_API_URL}/posts/${post_id}/`)
     },
         {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 history.push('/discover')
             },
             onError: (error) => {
@@ -44,7 +42,7 @@ const PostDetails = () => {
         return axios.post(`${process.env.REACT_APP_API_URL}/posts/addLike`, { post_id, user_id })
     },
         {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 postQuery.refetch()
             },
             onError: (error) => {
@@ -52,11 +50,11 @@ const PostDetails = () => {
             }
         })
 
-    const removeFavorite = useMutation(id => {
+    const removeFavorite = useMutation(() => {
         return axios.post(`${process.env.REACT_APP_API_URL}/posts/removeLike`, { post_id, user_id })
     },
         {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 postQuery.refetch()
             },
             onError: (error) => {
@@ -97,7 +95,7 @@ const PostDetails = () => {
         return axios.post(`${process.env.REACT_APP_API_URL}/comments`, data)
     },
         {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 postQuery.refetch()
             },
             onError: (error) => {

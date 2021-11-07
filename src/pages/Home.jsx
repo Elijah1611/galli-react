@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <div className="mb-20">
             <div className="shadow-xl md:w-4/6 mx-auto md:mt-10">
-                <img src={homeImage} alt="Galli Hompage Image" className="shadow-xl md:rounded-xl" data-testid="home-image" />
+                <img src={homeImage} alt="Galli Homepage Banner" className="shadow-xl md:rounded-xl" data-testid="home-image" />
             </div>
 
             <div className="p-8 text-center">

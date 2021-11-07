@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { } from 'react'
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-query'
 import { IoGridSharp } from 'react-icons/io5'
-import { AiFillHeart } from 'react-icons/ai'
 import NavMenu from './NavMenu'
-import Profile from '../pages/Profile'
-import jwtDecode from 'jwt-decode'
 
 const Navbar = () => {
     const token = localStorage.getItem('galli_token')

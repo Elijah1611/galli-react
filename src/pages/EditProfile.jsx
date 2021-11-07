@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { AiFillHeart } from 'react-icons/ai'
@@ -10,19 +10,21 @@ import Moment from 'react-moment'
 
 const EditProfile = () => {
     const history = useHistory()
-    const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({ mode: 'onBlur' })
+    const [user, setUser] = useState()
+    const { register, handleSubmit, watch, setValue } = useForm({ mode: 'onBlur' })
 
     const token = localStorage.getItem('galli_token')
     const { id: user_id, username } = jwtDecode(token);
 
-    const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
-    const user = userQuery.data?.data
+    useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`), {
+        onSuccess: (res) => setUser(res.data)
+    })
 
     const updateProfile = useMutation((data) => {
         return axios.patch(`${process.env.REACT_APP_API_URL}/users/${user_id}`, data)
     },
         {
-            onSuccess: (result) => {
+            onSuccess: () => {
                 history.push(`/profile/${username}`)
             },
             onError: (error) => {
@@ -33,6 +35,7 @@ const EditProfile = () => {
 
     const onSubmit = data => updateProfile.mutate(data)
 
+
     useEffect(() => {
         if (user) {
             setValue('email', user.email)
@@ -41,7 +44,7 @@ const EditProfile = () => {
             setValue('bio', user.bio)
             setValue('avatar_url', user.avatar_url)
         }
-    }, [user]);
+    }, [user, setValue]);
 
     return user ? (
         <div>
