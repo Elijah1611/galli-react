@@ -17,11 +17,11 @@ const Upload = () => {
     const { id: user_id, username } = jwtDecode(token);
 
     const postMutation = useMutation(data => {
-        return axios.post('http://localhost:7000/api/posts', data)
+        return axios.post(`${process.env.REACT_APP_API_URL}/posts`, data)
     })
 
     const uploadMutation = useMutation(data => {
-        return axios.post('http://localhost:7000/api/upload/image', data, {
+        return axios.post(`${process.env.REACT_APP_API_URL}/upload/image`, data, {
             headers: {
                 'content-type': 'multipart/form-data'
             }

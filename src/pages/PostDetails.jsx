@@ -23,12 +23,12 @@ const PostDetails = () => {
 
     const [commentError, setCommentError] = useState(false)
 
-    const postQuery = useQuery('post', async () => await axios.get(`http://localhost:7000/api/posts/${post_id}/all`))
+    const postQuery = useQuery('post', async () => await axios.get(`${process.env.REACT_APP_API_URL}/posts/${post_id}/all`))
     const post = postQuery.data?.data
 
     // Post Mutations
     const removePost = useMutation(() => {
-        return axios.delete(`http://localhost:7000/api/posts/${post_id}/`)
+        return axios.delete(`${process.env.REACT_APP_API_URL}/posts/${post_id}/`)
     },
         {
             onSuccess: (result) => {
@@ -41,7 +41,7 @@ const PostDetails = () => {
 
     // Favorite Mutations
     const addFavorite = useMutation(() => {
-        return axios.post('http://localhost:7000/api/posts/addLike', { post_id, user_id })
+        return axios.post(`${process.env.REACT_APP_API_URL}/posts/addLike`, { post_id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -53,7 +53,7 @@ const PostDetails = () => {
         })
 
     const removeFavorite = useMutation(id => {
-        return axios.post(`http://localhost:7000/api/posts/removeLike`, { post_id, user_id })
+        return axios.post(`${process.env.REACT_APP_API_URL}/posts/removeLike`, { post_id, user_id })
     },
         {
             onSuccess: (result) => {
@@ -94,7 +94,7 @@ const PostDetails = () => {
 
     // Comment Mutations
     const commentMutation = useMutation(data => {
-        return axios.post('http://localhost:7000/api/comments', data)
+        return axios.post(`${process.env.REACT_APP_API_URL}/comments`, data)
     },
         {
             onSuccess: (result) => {

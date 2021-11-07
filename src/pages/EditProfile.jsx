@@ -15,11 +15,11 @@ const EditProfile = () => {
     const token = localStorage.getItem('galli_token')
     const { id: user_id, username } = jwtDecode(token);
 
-    const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
+    const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
     const user = userQuery.data?.data
 
     const updateProfile = useMutation((data) => {
-        return axios.patch(`http://localhost:7000/api/users/${user_id}`, data)
+        return axios.patch(`${process.env.REACT_APP_API_URL}/users/${user_id}`, data)
     },
         {
             onSuccess: (result) => {

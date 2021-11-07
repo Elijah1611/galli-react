@@ -27,7 +27,7 @@ const Navbar = () => {
         )
     }
 
-    // const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
+    // const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
     // const user = userQuery.data?.data
 
     // const renderProfileBubble = () => {

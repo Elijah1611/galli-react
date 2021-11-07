@@ -22,7 +22,7 @@ const Login = () => {
     const [is401Error, set401Error] = useState(false)
 
     const mutation = useMutation(data => {
-        return axios.post('http://localhost:7000/api/auth/login', data)
+        return axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data)
     },
         {
             onSuccess: (result) => {

@@ -13,11 +13,12 @@ const Discover = () => {
     const { id: user_id, username } = jwtDecode(token);
 
     console.log(username, user_id)
+    console.log(process.env.REACT_APP_API_URL)
 
-    const userQuery = useQuery('user', async () => await axios.get(`http://localhost:7000/api/users/username/${username}`))
+    const userQuery = useQuery('user', async () => await axios.get(`${process.env.REACT_APP_API_URL}/users/username/${username}`))
     const user = userQuery.data?.data
 
-    const postsQuery = useQuery('posts', async () => await axios.get('http://localhost:7000/api/posts/all'))
+    const postsQuery = useQuery('posts', async () => await axios.get(`${process.env.REACT_APP_API_URL}/posts/all`))
     const posts = postsQuery.data?.data
 
     const renderAllPosts = posts ? posts.map(post => {

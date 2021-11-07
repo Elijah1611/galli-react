@@ -14,7 +14,7 @@ const Register = () => {
     const [duplicateError, setDuplicateError] = useState(false)
 
     const mutation = useMutation(data => {
-        return axios.post('http://localhost:7000/api/auth/register', data)
+        return axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, data)
     },
         {
             onSuccess: (result) => {
